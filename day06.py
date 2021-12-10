@@ -2,7 +2,7 @@ from typing import List
 
 
 def part1(fish: List[int]):
-    MAX_DAYS = 77
+    MAX_DAYS = 80
 
     for _ in range(MAX_DAYS):
         for i in range(len(fish)):
@@ -11,23 +11,23 @@ def part1(fish: List[int]):
                 fish.append(8)
                 fish[i] = 6
 
-
     print(len(fish))
 
 
 def part2(fish: List[int]):
-    init_len = len(fish)
+    lives = [0] * 9
+    for i in range(len(lives)):
+        lives[i] = fish.count(i)
 
-    groups = [6]
+    for _ in range(256):
+        temp = lives[0]
+        for i in range(1, len(lives)):
+            lives[i - 1] = lives[i]
 
-    for _ in range(77):
-        for i in range(len(groups)):
-            groups[i] -= 1
-            if groups[i] < 0:
-                groups.append(8)
-                groups[i] = 6
+        lives[6] += temp
+        lives[8] = temp
 
-    print(len(groups) * init_len)
+    print(sum(lives))
 
 
 def main():
@@ -35,8 +35,8 @@ def main():
 
     _input = [int(x.strip()) for x in f.readline().split(',')]
 
-    part1(_input)
-    part2(_input)
+    part1(_input[::])
+    part2(_input[::])
 
 
 if __name__ == '__main__':
